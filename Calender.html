@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="jquery-ui-1.13.2/jquery-ui.css">
+    <link rel="stylesheet" href="jquery-ui-1.13.2/jquery-ui.structure.css">
+    <link rel="stylesheet" href="jquery-ui-1.13.2/jquery-ui.theme.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="todoContainer">
+        <h3>ALL TO-DO</h3>
+        <div class="todoList">
+            <h3 class="todoMonth" id="todo-january">January</h3>
+            <div class="content january"></div>
+            <h3 class="todoMonth" id="todo-february">February</h3>
+            <div class="content february"></div>
+            <h3 class="todoMonth" id="todo-march">March</h3>
+            <div class="content march"></div>
+            <h3 class="todoMonth" id="todo-april">April</h3>
+            <div class="content april"></div>
+            <h3 class="todoMonth" id="todo-may">May</h3>
+            <div class="content may"></div>
+            <h3 class="todoMonth" id="todo-june">June</h3>
+            <div class="content june"></div>
+            <h3 class="todoMonth" id="todo-july">July</h3>
+            <div class="content july"></div>
+            <h3 class="todoMonth" id="todo-august">August</h3>
+            <div class="content august"></div>
+            <h3 class="todoMonth" id="todo-september">September</h3>
+            <div class="content september"></div>
+            <h3 class="todoMonth" id="todo-october">Octomber</h3>
+            <div class="content october"></div>
+            <h3 class="todoMonth" id="todo-november">November</h3>
+            <div class="content november"></div>
+            <h3 class="todoMonth" id="todo-december">December</h3>
+            <div class="content december"></div>
+        </div>
+        
+    </div>
+    <div class="container">
+
+
+        <div class="yearContainer">
+            <div class="menuIcon"><img src="menu_icon.png" alt=""></div>
+            <div class="year">
+                <div class="yearName">
+                    <h1><span id="currentYear">2022</span> CALENDER</h1>
+                </div>
+                <center>
+                <ul class="years">
+                    <li class="eachYear">2022</li>
+                    <li class="eachYear">2023</li>
+                    <li class="eachYear">2024</li>
+                    <li class="eachYear">2025</li>
+                </ul>
+                </center>
+            </div>
+        </div>
+        <div class="calender"> 
+            <div class="month" id="january"><div class="month-name">january</div><div class="dates"></div></div>
+            <div class="month" id="february"><div class="month-name">february</div><div class="dates"></div></div>
+            <div class="month" id="march"><div class="month-name">march</div><div class="dates"></div></div>
+            <div class="month" id="april"><div class="month-name">april</div><div class="dates"></div></div>
+            <div class="month" id="may"><div class="month-name">may</div><div class="dates may"></div></div>
+            <div class="month" id="june"><div class="month-name">june</div><div class="dates"></div></div>
+            <div class="month" id="july"><div class="month-name">july</div><div class="dates"></div></div>
+            <div class="month" id="august"><div class="month-name">august</div><div class="dates"></div></div>
+            <div class="month" id="september"><div class="month-name">september</div><div class="dates"></div></div>
+            <div class="month" id="october"><div class="month-name">october</div><div class="dates"></div></div>
+            <div class="month" id="november"><div class="month-name">november</div><div class="dates"></div></div>
+            <div class="month" id="december"><div class="month-name">december</div><div class="dates"></div></div>
+        </div>
+        <div id="days">
+            <div class="full-date"></div>
+            <form action="">
+                <input name="categories" list="events" id="categories">   
+                        <datalist id="events"> 
+                        <option value="">--Select Category--</option>
+                        <option value="Anniversary">Anniversary</option>
+                        <option value="Holiday">Holiday</option>
+                        <option value="Event">Event</option>
+                        <option value="Birthday">Birthday</option>
+                        <option value="Others" id="others">Others</option>
+                    </datalist>
+                <div class="others">
+                    <input type="text" placeholder="Enter To-Do name">
+                </div>
+                <div class="reminderName">
+                    <label for="reminder">Set Reminder</label><input type="text" placeholder="Enter Event Name" id="reminder">
+                </div>
+                <input type="submit" value="SAVE">
+            </form>
+        </div>
+    </div>
+
+    <script src="jQuery.min.js"></script>
+    <script src="jquery-ui-1.13.2/jquery-ui.js"></script>
+    <script src="jquery-ui-1.13.2/jquery-ui.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
