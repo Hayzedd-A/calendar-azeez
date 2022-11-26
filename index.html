@@ -12,7 +12,6 @@
 </head>
 <body>
     <div class="todoContainer">
-      <span><img id="closeIcon" class="todoIcon"src="close_icon.png" alt="" /></span>
         <h3>ALL TO-DO</h3>
         <div class="todoList">
             <h3 class="todoMonth" id="todo-january">January</h3>
@@ -39,7 +38,6 @@
             <div class="content november"></div>
             <h3 class="todoMonth" id="todo-december">December</h3>
             <div class="content december"></div>
-            <span class="emptyInfo"></span>
         </div>
         
     </div>
@@ -47,7 +45,7 @@
 
 
         <div class="yearContainer">
-            <div class="menuIcon todoIcon"><img src="menu_icon.png" alt=""></div>
+            <div class="menuIcon"><img src="menu_icon.png" alt=""></div>
             <div class="year">
                 <div class="yearName">
                     <h1><span id="currentYear">2022</span> CALENDER</h1>
@@ -88,6 +86,9 @@
                         <option value="Birthday">Birthday</option>
                         <option value="Others" id="others">Others</option>
                     </datalist>
+                <div class="others">
+                    <input type="text" placeholder="Enter To-Do name">
+                </div>
                 <div class="reminderName">
                     <label for="reminder">Set Reminder</label><input type="text" placeholder="Enter Event Name" id="reminder">
                 </div>
