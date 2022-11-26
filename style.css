@@ -1,6 +1,6 @@
 
         body{
-            font-size: 32px;
+            font-size: 18px;
             background-image: linear-gradient(137deg, #518b83, #e3a4ba, #76d36f, #dfcba5f5);
         }
         .container {
@@ -18,17 +18,17 @@
         .todoContainer {
             background-color: #a5a339;
             transition: right 0.5s;
-            position: absolute;
+            position: fixed;
             top: 0;
             right: 100%;
             height: 100vh;
-            width: 40vw;
+            width: 80vw;
         }
         .todoContainer h3 {
             text-align: center;
         }
         .right50 {
-            right: 52%;
+            right: 20%;
         }
         .todoList h3 {
             text-align: center;
@@ -54,8 +54,15 @@
         }
 
         .menuIcon img {
-            height: 100%;
+          width: 50px;
+            heiight: 100%;
             cursor: pointer;
+        }
+        #closeIcon {
+          width: 50px;
+          position: relative;
+          top: 30px;
+          left: 10px;
         }
         .calender {
             display: grid;
@@ -153,6 +160,7 @@
         }
         .outline{
             outline: 1px outset;
+            color: blu;
         }
         #optionClose {
             cursor: pointer;

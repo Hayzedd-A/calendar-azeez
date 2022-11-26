@@ -2,7 +2,7 @@
 
 /* create an array of months and year with their span numbers
 loop through the array and them to the date element */
-let months = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday' ]
+let months = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ]
 const yearArray =  {
     '2022' : {'january': 6, 'february': 2, 'march': 2, 'april': 5, 'may': 7, 'june': 3, 'july': 5, 'august': 1, 'september': 4, 'october': 6, 'november': 2, 'december': 4},
     '2023' : {'january': 7, 'february': 3, 'march': 3, 'april': 6, 'may': 1, 'june': 4, 'july': 6, 'august': 2, 'september': 5, 'october': 7, 'november': 3, 'december': 5},
@@ -11,7 +11,7 @@ const yearArray =  {
     '2026' : {'january': 4, 'february': 3, 'march': 2, 'april': 5, 'may': 7, 'june': 3, 'july': 5, 'august': 1, 'september': 4, 'october': 6, 'november': 2, 'december': 4},
     '2027' : {'january': 5, 'february': 3, 'march': 2, 'april': 5, 'may': 7, 'june': 3, 'july': 5, 'august': 1, 'september': 4, 'october': 6, 'november': 2, 'december': 4}
 }
-const yearLocalStorage = {'2022': 'event22', '2023': 'event23', '2024': 'event24'}
+const yearLocalStorage = {'2022': 'event22', '2023': 'event23', '2024': 'event24', '2025': 'event25'}
 
 // All Functions
 
@@ -135,13 +135,22 @@ function updateReminder() {
      * loop through the content of each month, if empty, get the id and set its h3 to hiden
      */
     $('.todoList h3').show()
+    let emptyCounter = 0
     $('.todoList .content').each(function() {
         if ($(this).html() == '') {
             let emptyClass = $(this).attr('class').split(' ')[1]
             let emptyh3 = '#todo-' + emptyClass
             $(emptyh3).hide()
+            emptyCounter += 1
         }
     })
+    if (emptyCounter == 12) {
+        $('.emptyInfo').show()
+      $('.emptyInfo').html('<h4 id="emptyInfo">No event added yet. \n Add a Todo event to see their lists here</h4>')
+    } else {
+      $('.emptyInfo').hide()
+    }
+    
 }
 
 /**
@@ -273,7 +282,7 @@ $('.maximize').click(function() {
     }
 })
 
-$('.yearName h1').dblclick(function() {
+$('.yearName h1').click(function() {
     $('.years').dialog('open')
 })
 
@@ -288,6 +297,7 @@ $('.years li').click(function() {
     redSundays()
     removeOutline()
     outlineEventDates()
+    updateReminder()
 })
 
 
@@ -318,7 +328,7 @@ $('#days').dialog({
  - turn on the dialog box
  - make the input for others hidden
  */
-$('.date').dblclick(function() {
+$('.date').click(function() {
     dateSelector = $(this)
     let date = $(this).html()
     let intDate = parseInt(date)
@@ -334,11 +344,11 @@ $('.date').dblclick(function() {
 })
 
 // make the input of others appear when others is selected from the list
-$('#categories').change(function() {
+/*$('#categories').change(function() {
     if ($(this).val() == 'Others') {
         $('.others').show()
     }
-})
+})*/
 /*
 - get the value of the others input, add it to the option list and set it as the value of the categories
 - get the datas and initiate submitted to false to check if .....
@@ -361,6 +371,7 @@ $('input:submit').click(function() {
     category = $('#categories').val()
     reminderDate = $('.full-date').html()
     saveToStorage(currentYearStorage)
+    updateReminder()
     return false
 })
 
@@ -370,7 +381,7 @@ $('input:submit').click(function() {
  */
 
 //  when menu icon is clicked, slide out the menu div
-$('.menuIcon').click(function() {
+$('.todoIcon').click(function() {
     $('.todoContainer').toggleClass('right50')
     updateReminder()
 })
