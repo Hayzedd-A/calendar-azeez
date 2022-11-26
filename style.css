@@ -161,8 +161,7 @@
             height: 100vh;
         }
         .outline{
-            outline: 1px outset;
-            color: blu;
+            outline: 1px outset maroon;
         }
         #optionClose {
             cursor: pointer;
