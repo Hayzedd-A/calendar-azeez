@@ -31,20 +31,24 @@ function getYearStorage(currentyear) {
 
 
 
-
+let alltodoList = ''
 function getLocalStorageData(yearStorage) {
-    let alltodoList = JSON.parse(window.localStorage.getItem(yearStorage))
+    alltodoList = JSON.parse(window.localStorage.getItem(yearStorage))
     todoListMonths = []
     todoListDay = []
     todoListDate = []
     todoListEvent = []
     todoListReminder = []
+    todoListID = []
+    todoListDone = []
     $.each(alltodoList, function(index, value) {
-        todoListMonths.push(value[0].split(' ')[2])
-        todoListDay.push(value[0].split(' ')[1])
-        todoListDate.push(value[0].split(' ')[0].slice(0,-1))
-        todoListEvent.push(value[1])
-        todoListReminder.push(value[2])
+        todoListMonths.push(alltodoList[index].reminderDate.split(' ')[2])
+        todoListDay.push(alltodoList[index].reminderDate.split(' ')[1])
+        todoListDate.push(alltodoList[index].reminderDate.split(' ')[0].slice(0,2))
+        todoListEvent.push(alltodoList[index].category)
+        todoListReminder.push(alltodoList[index].reminderName)
+        todoListID.push(alltodoList[index].id)
+        todoListDone.push(alltodoList[index].done)
     })
 }
 
@@ -89,6 +93,34 @@ function addNumberOfDatesToMonth() {
     })
 }
 
+function highlightUserDate() {
+    let userFullDate = new Date().toDateString()
+    let userDate = userFullDate.split(' ')
+    let userDay = ''
+    if (currentYearName == userDate[3]) {
+        $('.month').each(function() {
+            let month = $(this).attr('id').slice(0,3)
+            if (month == userDate[1].toLowerCase()) {
+                $(this).children('.dates').children().each(function() {
+                    if ($(this).text() == userDate[2]) {
+                        $(this).addClass('userDate')
+                    }
+                })
+            }
+
+        })
+    }
+    let angle = 0
+    function linearRotate() {
+        $('.userDate').css('background-image', 'linear-gradient('+ angle + 'deg, #423ca3, #954545, transparent)')
+        angle += 30
+        if(angle == 330) {
+            angle = 0
+        }
+    }
+    setInterval(linearRotate, 500)
+}
+
 function monthSpanner(yearData) {
     $.each(yearData, function(index, value) {
         $('#' + index +' .dates>div:nth-of-type(8)').removeClass()
@@ -96,11 +128,20 @@ function monthSpanner(yearData) {
     })
 }
 
+let id
+let pushEventDetail = []
 function saveToStorage(yearStorage) {
     let submitted = false
     if (category && reminderName) {
-        var eventDetail = [reminderDate, category, reminderName]
-        var pushEventDetail = JSON.parse(window.localStorage.getItem(yearStorage))
+        pushEventDetail = JSON.parse(window.localStorage.getItem(yearStorage))
+        if (!pushEventDetail) {
+            id = 1
+        } else {
+            console.log(pushEventDetail);
+            id = parseInt(pushEventDetail[pushEventDetail.length-1].id) + 1
+        }
+        let done = false
+        var eventDetail = {'id': id, 'reminderDate':reminderDate, 'category':category, 'reminderName':reminderName, 'done': done}
         if(pushEventDetail) {
             pushEventDetail.push(eventDetail)
             window.localStorage.setItem(yearStorage , JSON.stringify(pushEventDetail))
@@ -128,7 +169,13 @@ function updateReminder() {
     
     $('.todoList .content').html('')
     $.each(todoListMonths, function(index, value) {
-        $('.todoList .'+ value).append('<div class="eventContent"><span>' + todoListDay[index] +' '+ todoListDate[index] +' -->  </span>' + todoListEvent[index] + ': '+ todoListReminder[index] + '<span><img src="delete_icon.png" id="deleteTodo"> <img src="delete_icon.png" id="deleteTodo"></span> </div')
+        let done = ''
+        let markIcon = 'mark_icon.png'
+        if (todoListDone[index]) {
+            done = 'markAsDone'
+            markIcon = 'unmark_icon.png'
+        }
+        $('.todoList .'+ value).append('<div class="eventContent '+done+'" id="'+todoListID[index]+'"><span>' + todoListDay[index] +' '+ todoListDate[index] +' -->  </span>' + todoListEvent[index] + ': '+ todoListReminder[index] + '<span><img src="'+markIcon+'" class="optionTodo" id="mark" title="Mark as done"> <img src="delete_icon.png" class="optionTodo" id="delete" title="Delete"></span> </div>')
     })
     /**
      * set all months to show
@@ -150,7 +197,7 @@ function updateReminder() {
     } else {
       $('.emptyInfo').hide()
     }
-    
+
 }
 
 /**
@@ -197,6 +244,7 @@ function outlineEventDates() {
     })
 }
 $('.outline').tooltip()
+$('.optionTodo').tooltip()
 
 function removeOutline() {
     $('.date').removeClass('outline')
@@ -211,9 +259,7 @@ function redSundays () {
 }
 
 function dateCountDown(Pdate) {
-    console.log(Pdate)
     let eventday = new Date(Pdate).getTime()
-    console.log(eventday)
     let currentDate = new Date().getTime()
     let gap = (eventday - currentDate) / 1000
     daysToGo = Math.floor(gap / 60 / 60 / 24)
@@ -231,6 +277,8 @@ let todoListDay = []
 let todoListMonths = []
 let todoListEvent = []
 let todoListReminder = []
+let todoListID = []
+let todoListDone = []
 let currentYearName = $('#currentYear').html()
 let currentYearData = yearArray[currentYearName]
 var dateSelector = ''
@@ -295,12 +343,13 @@ $('.years li').click(function() {
     currentYearStorage = getYearStorage(currentYearName)
     getLocalStorageData(currentYearStorage)
     redSundays()
+    highlightUserDate()
     removeOutline()
     outlineEventDates()
     updateReminder()
 })
 
-
+highlightUserDate()
 
 // initiate an accordion from the jQuery UI to show the todo list
 $('.todoList').accordion({
@@ -344,11 +393,11 @@ $('.date').click(function() {
 })
 
 // make the input of others appear when others is selected from the list
-/*$('#categories').change(function() {
+$('#categories').change(function() {
     if ($(this).val() == 'Others') {
         $('.others').show()
     }
-})*/
+})
 /*
 - get the value of the others input, add it to the option list and set it as the value of the categories
 - get the datas and initiate submitted to false to check if .....
@@ -394,12 +443,35 @@ $('.todoIcon').click(function() {
 $('.outline').click(function() {
     fullDate = $(this).attr('content')
     dateCountDown(fullDate)
-    console.log(daysToGo)
 
 })
 dateCountDown(fullDate)
- console.log(daysToGo)
 
- $(document).on('click','#deleteTodo',function(){
-    console.log($(this).parent());
- })
+$(document).on('click','#delete', function() {
+    let parentId = parseInt($(this).parent().parent().attr('id'));
+    pushEventDetail = []
+    $.each(alltodoList, function(index, value) {   
+            if (alltodoList[index].id == parentId) {
+                console.log('hehe')
+                return;
+            }
+        pushEventDetail.push(value)
+
+    })
+    window.localStorage.setItem(currentYearStorage , JSON.stringify(pushEventDetail))
+    updateReminder()
+    outlineEventDates()
+})
+$(document).on('click','#mark', function() {
+    let parentId = parseInt($(this).parent().parent().attr('id'));
+    $(this).attr('src', ($(this).attr('src') == 'mark_icon.png'? 'unmark_icon.png': 'mark_icon.png'))
+    $.each(alltodoList, function(index, value) {
+        if (alltodoList[index].id == parentId) {
+
+            value.done = !value.done
+        }
+    })
+    window.localStorage.setItem(currentYearStorage , JSON.stringify(alltodoList))
+    updateReminder()
+})
+
