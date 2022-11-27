@@ -191,7 +191,7 @@ function updateReminder() {
     })
     if (emptyCounter == 12) {
         $('.emptyInfo').show()
-      $('.emptyInfo').html('<h4 id="emptyInfo">No event added yet. \n Add a Todo event to see their lists here</h4>')
+      $('.emptyInfo').html('<h4 id="emptyInfo">No event added yet. \n Add a Todo event to see their lists here. \n click on any date to add a Todo</h4>')
     } else {
       $('.emptyInfo').hide()
     }
