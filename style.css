@@ -2,6 +2,7 @@
         body{
             font-size: 18px;
             background-image: linear-gradient(137deg, #518b83, #e3a4ba, #76d36f, #dfcba5f5);
+            background-attachment: fixed;
         }
         .container {
             display: grid;
@@ -214,7 +215,7 @@
             display: none;
         }
 
-        @media screen and (max-width : 600px) {
+        @media only screen and (max-width : 600px) {
         .container { 
             grid-template-rows: 120px 1fr;
         }
@@ -223,26 +224,19 @@
             grid-template-rows: repeat(12, 1fr);
         }
         }
-        @media screen and (max-width : 800px) {
+        @media only screen and (min-width : 600px) {
             .calender {
                 grid-template-columns: repeat(2, 1fr);
                 grid-template-rows: repeat(6, 1fr);
             }
         }
-        @media screen and (max-width : 1140px) {
+        @media only screen and (min-width : 900px) {
             .calender {
                 grid-template-columns: repeat(3, 1fr);
                 grid-template-rows: repeat(4, 1fr);
             }
         }
-        @media screen and (min-width : 1640px) {
-            
-        .calender {
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-        }
-        }
-        @media screen and (min-width : 2400px) {
+        @media only screen and (min-width : 2400px) {
             body {
                 font-size: 48px;
             }
@@ -255,7 +249,6 @@
         .userDate {
             border-radius: 50%;
             color: #83d9dd;
-            transform: scale(1.5);
             transition: all .5s linear;
             background-image: linear-gradient(45deg, #423ca3, #954545, transparent);
         }

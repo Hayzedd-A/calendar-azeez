@@ -44,7 +44,7 @@ function getLocalStorageData(yearStorage) {
     $.each(alltodoList, function(index, value) {
         todoListMonths.push(alltodoList[index].reminderDate.split(' ')[2])
         todoListDay.push(alltodoList[index].reminderDate.split(' ')[1])
-        todoListDate.push(alltodoList[index].reminderDate.split(' ')[0].slice(0,2))
+        todoListDate.push(alltodoList[index].reminderDate.split(' ')[0].slice(0,-1))
         todoListEvent.push(alltodoList[index].category)
         todoListReminder.push(alltodoList[index].reminderName)
         todoListID.push(alltodoList[index].id)
@@ -128,8 +128,6 @@ function monthSpanner(yearData) {
     })
 }
 
-let id
-let pushEventDetail = []
 function saveToStorage(yearStorage) {
     let submitted = false
     if (category && reminderName) {
@@ -221,6 +219,7 @@ function updateReminder() {
 }
 
 function outlineEventDates() {
+    $('.date.outline').removeClass('outline')
     getLocalStorageData(currentYearStorage)
     $.each(todoListDate, function(index, value) {
         $('#' + todoListMonths[index] + ' .date').each(function () {
@@ -272,6 +271,8 @@ function dateCountDown(Pdate) {
 - create global array viarable of all data needed
 - initiate a function to fetch data from localStorage
 */
+let id
+let pushEventDetail = []
 let todoListDate = []
 let todoListDay = []
 let todoListMonths = []
