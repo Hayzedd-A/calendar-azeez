@@ -132,7 +132,7 @@ function saveToStorage(yearStorage) {
     let submitted = false
     if (category && reminderName) {
         pushEventDetail = JSON.parse(window.localStorage.getItem(yearStorage))
-        if (!pushEventDetail) {
+        if (!pushEventDetail || pushEvenDetail.length)  {
             id = 1
         } else {
             console.log(pushEventDetail);
