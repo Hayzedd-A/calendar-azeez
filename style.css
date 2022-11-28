@@ -1,0 +1,264 @@
+
+        body{
+            font-size: 18px;
+            background-image: linear-gradient(137deg, #518b83, #e3a4ba, #76d36f, #dfcba5f5);
+            background-attachment: fixed;
+        }
+        .container {
+            display: grid;
+            grid-template-rows: 60px 1fr;
+            gap: 1em;
+        }
+        h1 {
+            color: rgb(60 68 68);
+            text-shadow: 6px 6px 10px darkslategrey;
+            text-align: center;
+            text-decoration: underline;
+            margin: 0;
+        }
+        .todoContainer {
+            background-color: #a5a339;
+            transition: right 0.5s;
+            position: fixed;
+            top: 0;
+            right: 100%;
+            height: 100vh;
+            width: 80vw;
+        }
+        .todoContainer h3 {
+            text-align: center;
+        }
+        .right50 {
+            right: 19%;
+        }
+        .todoList h3 {
+            text-align: center;
+        }
+        .todoList .content {
+            position: relative;
+            padding: 0.5em!important;
+            font-size: 24px;
+        }
+        .todoList .content img{
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .todoList .content img#delete{
+            width: 36px;
+            height: 36px;
+        }
+        .eventContent span:last-of-type{
+            display: flex;
+            align-items: center;
+        }
+        .todoList .content img:active{
+            transform: scale(0.9);
+        }
+        .yearContainer {
+            display: flex;
+        }
+        .year {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .menuIcon img {
+            cursor: pointer;
+            width: 50px;
+        }
+        #closeIcon {
+            width: 50px;
+            position: relative;
+            top: 30px;
+            left: 10px;
+            cursor: pointer;
+        }
+        .calender {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 2%;
+            justify-items: space-around;
+        }
+        .month {
+            box-shadow: 6px 4px 9px black;
+            background-image: linear-gradient(45deg, #464b4c, #a5a339);
+            color: white;
+            border-radius: 1rem;
+            display: grid;
+            grid-template-rows: 40px 1fr;
+            text-align: center;
+            transition-property: all;
+            transition-duration: 2s;
+            top: 0;
+            left: 0;
+        }
+        .month-name {
+            text-transform: uppercase;
+            background-color: rgb(81 88 88 / 55%);
+            border-radius: 1rem 1rem 0 0;
+        }
+
+        .maximize {
+            margin: 5px 15px;
+            width: 30px;
+            float: right;
+            cursor: pointer;
+        }
+        div.ui-widget.ui-widget-content {
+            border-radius: 40px;
+        }
+        .ui-dialog-titlebar {
+            border-radius: 30px 30px 0 0;
+        }
+        .ui-dialog .ui-dialog-content {
+            background-color: darkseagreen;
+            border-radius: 0 0 30px 30px;
+        }
+        ul.years {
+            margin: 0;
+        }
+        .years li {
+            margin: 5px;
+        }
+        .years li.eachYear:hover {
+            color: #bb5050;
+        }
+        .others input {
+            background-color: antiquewhite;
+        }
+        .ui-dialog .ui-dialog-titlebar-close {
+            width: 40px;
+            height: 40px;
+            top: 30%;
+            right: .6em;
+        }
+        .ui-button .ui-icon {
+            transform: scale(2);
+            background-color: rgb(243, 159, 159);
+        }
+        #days form input {
+            margin-top: 10px;
+            border-radius: 10px;
+            padding: 5px 15px;
+            box-shadow: 1px 1px 5px;
+            border: none;
+        }
+        .dates {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(7, 1fr);
+            justify-items: center;
+            align-items: center;
+        }
+
+        .date {
+            cursor: pointer;
+        }
+        .date:hover {
+            text-shadow: 0 0 20px black;
+            font-weight: bold;
+        }
+        .full-date {
+            text-transform: capitalize;
+        }
+        .bigShow {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+        }
+        .outline{
+            outline: 1.5px outset maroon;
+        }
+        #optionClose {
+            cursor: pointer;
+        }
+        .width {
+            width: 95%;
+        }
+        .yearName h1, .years li {
+            cursor: pointer;
+        }
+
+        .dates > div:first-of-type { 
+            color: red;
+        }
+
+        .span-1 {
+            grid-column: span 1;
+        }
+
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        .span-3 {
+            grid-column: span 3;
+        }
+
+        .span-4 {
+            grid-column: span 4;
+        }
+
+        .span-5 {
+            grid-column: span 5;
+        }
+
+        .span-6 {
+            grid-column: span 6;
+        }
+
+        .span-7 {
+            grid-column: span 7;
+            display: none;
+        }
+
+        @media only screen and (max-width : 600px) {
+        .container { 
+            grid-template-rows: 120px 1fr;
+        }
+        .calender {
+            grid-template-columns: repeat(1, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+        }
+        }
+        @media only screen and (min-width : 600px) {
+            .calender {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(6, 1fr);
+            }
+        }
+        @media only screen and (min-width : 900px) {
+            .calender {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+            }
+        }
+        @media only screen and (min-width : 2400px) {
+            body {
+                font-size: 48px;
+            }
+        }
+        @media screen and (min-width : 3300px) {
+            body {
+                font-size: 64px;
+            }
+        }
+        .userDate {
+            border-radius: 50%;
+            color: #83d9dd;
+            transition: all .5s linear;
+            background-image: linear-gradient(45deg, #423ca3, #954545, transparent);
+        }
+
+        .eventContent {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 15px;
+        }
+        .markAsDone {
+            color: lightgray;
+        }
