@@ -155,6 +155,8 @@ function saveToStorage(yearStorage) {
         $('#days').dialog('close')
         updateReminder()
         outlineEventDates()
+        $('.reminderName input').val("")
+        $('#categories').val("")
         alert('data saved successfully')
     } else {
         alert('data not saved.\nAll data are not filled')
