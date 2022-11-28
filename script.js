@@ -132,7 +132,7 @@ function saveToStorage(yearStorage) {
     let submitted = false
     if (category && reminderName) {
         pushEventDetail = JSON.parse(window.localStorage.getItem(yearStorage))
-        if (!pushEventDetail || !pushEvenDetail.length)  {
+        if (!pushEventDetail || !pushEventDetail.length) {
             id = 1
         } else {
             console.log(pushEventDetail);
@@ -191,7 +191,7 @@ function updateReminder() {
     })
     if (emptyCounter == 12) {
         $('.emptyInfo').show()
-      $('.emptyInfo').html('<h4 id="emptyInfo">No event added yet. \n Add a Todo event to see their lists here. \n click on any date to add a Todo</h4>')
+      $('.emptyInfo').html('<h4 id="emptyInfo">No event added yet. \n Add a Todo event to see their lists here</h4>')
     } else {
       $('.emptyInfo').hide()
     }
@@ -246,7 +246,7 @@ $('.outline').tooltip()
 $('.optionTodo').tooltip()
 
 function removeOutline() {
-    $('.date').removeClass('outline')
+    $('.date.outline').removeClass('outline')
 }
 
 function redSundays () {
