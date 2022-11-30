@@ -139,12 +139,24 @@
             transform: scale(2);
             background-color: rgb(243, 159, 159);
         }
-        #days form input {
-            margin-top: 10px;
+        .repeatOption {
+            display: flex;
+            justify-content: end;
+            gap: 10px;
+        }
+        #days form input:not(.repeatOption input) {
             border-radius: 10px;
             padding: 5px 15px;
             box-shadow: 1px 1px 5px;
+            margin-top: 10px;
             border: none;
+        }
+        .repeatOption input {
+            transform: scale(1.5);
+            margin-top: 10px;
+        }
+        .repeatition {
+            opacity: 0.1;
         }
         .dates {
             display: grid;
@@ -183,7 +195,7 @@
         }
 
         .dates > div:first-of-type { 
-            color: red;
+            color: rgb(227 85 85);
         }
 
         .span-1 {

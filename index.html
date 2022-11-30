@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="jquery-ui-1.13.2/jquery-ui.css">
     <link rel="stylesheet" href="jquery-ui-1.13.2/jquery-ui.structure.css">
     <link rel="stylesheet" href="jquery-ui-1.13.2/jquery-ui.theme.css">
-    <title>Todo-Calender</title>
+    <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -58,6 +58,8 @@
                     <li class="eachYear">2023</li>
                     <li class="eachYear">2024</li>
                     <li class="eachYear">2025</li>
+                    <li class="eachYear">2026</li>
+                    <li class="eachYear">2027</li>
                 </ul>
                 </center>
             </div>
@@ -88,11 +90,11 @@
                         <option value="Birthday">Birthday</option>
                         <option value="Others" id="others">Others</option>
                     </datalist>
-                <div class="others">
-                    <input type="text" placeholder="Enter To-Do name">
-                </div>
                 <div class="reminderName">
                     <label for="reminder">Set Reminder</label><input type="text" placeholder="Enter Event Name" id="reminder">
+                </div>
+                <div class="repeatOption">
+                    <span  id="repeatition"><input type="checkbox" value="repeat">Repeat Yearly</span><br>
                 </div>
                 <input type="submit" value="SAVE">
             </form>
