@@ -8,11 +8,10 @@ const yearArray =  {
     '2023' : {'january': 7, 'february': 3, 'march': 3, 'april': 6, 'may': 1, 'june': 4, 'july': 6, 'august': 2, 'september': 5, 'october': 7, 'november': 3, 'december': 5},
     '2024' : {'january': 1, 'february': 4, 'march': 5, 'april': 1, 'may': 3, 'june': 6, 'july': 1, 'august': 4, 'september': 7, 'october': 2, 'november': 5, 'december': 7},
     '2025' : {'january': 3, 'february': 6, 'march': 6, 'april': 2, 'may': 4, 'june': 7, 'july': 2, 'august': 5, 'september': 1, 'october': 3, 'november': 6, 'december': 1},
-    '2026' : {'january': 4, 'february': 7, 'march': 7, 'april': 3, 'may': 5, 'june': 1, 'july': 3, 'august': 6, 'september': 2, 'october': 4, 'november': 7, 'december': 2},
-    '2027' : {'january': 5, 'february': 1, 'march': 1, 'april': 4, 'may': 6, 'june': 2, 'july': 4, 'august': 7, 'september': 3, 'october': 5, 'november': 1, 'december': 3},
-    '2028' : {'january': 6, 'february': 2, 'march': 3, 'april': 6, 'may': 1, 'june': 4, 'july': 6, 'august': 2, 'september': 5, 'october': 7, 'november': 3, 'december': 5}
+    '2026' : {'january': 4, 'february': 3, 'march': 2, 'april': 5, 'may': 7, 'june': 3, 'july': 5, 'august': 1, 'september': 4, 'october': 6, 'november': 2, 'december': 4},
+    '2027' : {'january': 5, 'february': 3, 'march': 2, 'april': 5, 'may': 7, 'june': 3, 'july': 5, 'august': 1, 'september': 4, 'october': 6, 'november': 2, 'december': 4}
 }
-const yearLocalStorage = {'2022': 'event22', '2023': 'event23', '2024': 'event24', '2025': 'event25', '2026': 'event26', '2027': 'event27', '2028': 'event28'}
+const yearLocalStorage = {'2022': 'event22', '2023': 'event23', '2024': 'event24', '2025': 'event25'}
 
 // All Functions
 
@@ -45,7 +44,7 @@ function getLocalStorageData(yearStorage) {
     $.each(alltodoList, function(index, value) {
         todoListMonths.push(alltodoList[index].reminderDate.split(' ')[2])
         todoListDay.push(alltodoList[index].reminderDate.split(' ')[1])
-        todoListDate.push(alltodoList[index].reminderDate.split(' ')[0].slice(0,-1))
+        todoListDate.push(alltodoList[index].reminderDate.split(' ')[0].slice(0,2))
         todoListEvent.push(alltodoList[index].category)
         todoListReminder.push(alltodoList[index].reminderName)
         todoListID.push(alltodoList[index].id)
@@ -73,17 +72,12 @@ function getCurrentYearData() {
     create a for loop that adds number to the date depending on monthlenght variable
 */
 function addNumberOfDatesToMonth() {
-    $('.dates div[class]').remove()
     $('.month').each(function() {
         let month30 = ['april', 'june', 'september', 'november']
         let monthlength = 31
         let id = $(this).attr('id')
         if (id == 'february') {
             monthlength = 28
-            console.log(currentYearName)
-            if (!(parseInt(currentYearName) % 4)) {
-                monthlength = 29
-            }
         } else if (month30.includes(id)) {
             monthlength = 30
         }
@@ -97,13 +91,6 @@ function addNumberOfDatesToMonth() {
             $('#' + id +' .dates').append('<div class="date">' + i + '</div>')
         }
     })
-}
-
-function updateFebruary() {
-    currentYearName = parseInt(currentYearName)
-    if (!(currentYearName % 4)) {
-
-    }
 }
 
 function highlightUserDate() {
@@ -141,12 +128,16 @@ function monthSpanner(yearData) {
     })
 }
 
+let id
+let pushEventDetail = []
 function saveToStorage(yearStorage) {
+    let submitted = false
     if (category && reminderName) {
         pushEventDetail = JSON.parse(window.localStorage.getItem(yearStorage))
-        if (!pushEventDetail || !pushEventDetail.length) {
+        if (!pushEventDetail) {
             id = 1
         } else {
+            console.log(pushEventDetail);
             id = parseInt(pushEventDetail[pushEventDetail.length-1].id) + 1
         }
         let done = false
@@ -162,6 +153,15 @@ function saveToStorage(yearStorage) {
     } else {
         alert('one is empty')
     }
+    if (submitted) {
+        $('#days').dialog('close')
+        updateReminder()
+        outlineEventDates()
+        alert('data saved successfully')
+    } else {
+        alert('data not saved.\nAll data are not filled')
+    }
+    return false;
 }
 
 function updateReminder() {
@@ -221,8 +221,6 @@ function updateReminder() {
 }
 
 function outlineEventDates() {
-    $('.date').removeAttr('title')
-    $('.date.outline').removeClass('outline')
     getLocalStorageData(currentYearStorage)
     $.each(todoListDate, function(index, value) {
         $('#' + todoListMonths[index] + ' .date').each(function () {
@@ -246,18 +244,17 @@ function outlineEventDates() {
     })
 }
 $('.outline').tooltip()
-$('#yearName').tooltip()
 $('.optionTodo').tooltip()
 
 function removeOutline() {
-    $('.date.outline').removeClass('outline')
+    $('.date').removeClass('outline')
 }
 
 function redSundays () {
     $('.date').removeAttr('style')
     $.each(yearArray[currentYearName], function(index, value) {
         value = 16 - value
-        $('#'+index+' .dates>div:nth-child(7n+'+value+')').css('color', 'rgb(245, 182, 182)')
+        $('#'+index+' .dates>div:nth-child(7n+'+value+')').css('color', 'red')
     })
 }
 
@@ -275,8 +272,6 @@ function dateCountDown(Pdate) {
 - create global array viarable of all data needed
 - initiate a function to fetch data from localStorage
 */
-let id
-let pushEventDetail = []
 let todoListDate = []
 let todoListDay = []
 let todoListMonths = []
@@ -293,13 +288,6 @@ let reminderName = $('.reminderName input').val()
 let category = $('#categories').val()
 let reminderDate = $('.full-date').html()
 let currentYearStorage = 'event22'
-let submitted
-let monthName = ''
-let dayName = ''
-let dayIndex = ''
-let monthSpan = ''
-let intDate = ''
-let date = ''
 
 
 
@@ -350,7 +338,6 @@ $('.years li').click(function() {
     currentYearName = $(this).html()
     $('#currentYear').html(currentYearName)
     $('.years').dialog('close')
-    addNumberOfDatesToMonth()
     getCurrentYearData()
     monthSpanner(currentYearData)
     currentYearStorage = getYearStorage(currentYearName)
@@ -360,18 +347,6 @@ $('.years li').click(function() {
     removeOutline()
     outlineEventDates()
     updateReminder()
-})
-
-$('#repeatition input').click(function() {
-    if ($('#repeatition input:checked').val()) {
-        $('.repeatition input').removeAttr('disabled')
-        $('.repeatition').css('opacity', '1')
-    }
-    else {
-        $('.repeatition input').attr('disabled')
-        $('.repeatition').css('opacity', '0.1')
-
-    }
 })
 
 highlightUserDate()
@@ -404,12 +379,12 @@ $('#days').dialog({
  */
 $('.date').click(function() {
     dateSelector = $(this)
-    date = $(this).html()
-    intDate = parseInt(date)
-    monthName = $(this).parent().parent().attr("id")
-    monthSpan = yearArray[currentYearName][monthName]
-    dayIndex = (monthSpan + intDate - 1) % 7
-    dayName = months[dayIndex]
+    let date = $(this).html()
+    let intDate = parseInt(date)
+    let monthName = $(this).parent().parent().attr("id")
+    let monthSpan = parseInt($('#' + monthName + ' .span').css('grid-column').split(' ')[1])
+    let dayIndex = (monthSpan + intDate - 1) % 7
+    let dayName = months[dayIndex]
     $('.full-date').html(date +', '+ dayName +' '+monthName)
     getLocalStorageData(currentYearStorage)
     addNewEvent()
@@ -444,29 +419,7 @@ $('input:submit').click(function() {
     reminderName = $('.reminderName input').val()
     category = $('#categories').val()
     reminderDate = $('.full-date').html()
-    let repeat = $('#repeatition input:checked').val()
-    submitted = false
-    if (repeat) {
-        $.each(yearArray, function(index, value) {
-            monthSpan = value[monthName]
-            dayName = months[(monthSpan + intDate - 1) % 7]
-            reminderDate = date +', '+ dayName +' '+monthName
-            saveToStorage(getYearStorage(index))
-        })
-        monthSpan = yearArray[currentYearName][monthName]
-    } else {
-        saveToStorage(currentYearStorage)
-    }
-    if (submitted) {
-        $('#days').dialog('close')
-        updateReminder()
-        outlineEventDates()
-        alert('data saved successfully')
-        $('#categories').val('')
-        $('.reminderName input').val('')
-    } else {
-        alert('data not saved.\nAll data are not filled')
-    }
+    saveToStorage(currentYearStorage)
     updateReminder()
     return false
 })
@@ -499,6 +452,7 @@ $(document).on('click','#delete', function() {
     pushEventDetail = []
     $.each(alltodoList, function(index, value) {   
             if (alltodoList[index].id == parentId) {
+                console.log('hehe')
                 return;
             }
         pushEventDetail.push(value)
@@ -508,12 +462,12 @@ $(document).on('click','#delete', function() {
     updateReminder()
     outlineEventDates()
 })
-
 $(document).on('click','#mark', function() {
     let parentId = parseInt($(this).parent().parent().attr('id'));
     $(this).attr('src', ($(this).attr('src') == 'mark_icon.png'? 'unmark_icon.png': 'mark_icon.png'))
     $.each(alltodoList, function(index, value) {
         if (alltodoList[index].id == parentId) {
+
             value.done = !value.done
         }
     })
@@ -521,15 +475,3 @@ $(document).on('click','#mark', function() {
     updateReminder()
 })
 
-
-// $.each(yearArray, function() {
-//     $(this).each(function(i, value) {
-//         monthSpan = value[monthName]
-//         dayIndex = (monthSpan + intDate - 1) % 7
-//         dayName = months[dayIndex]
-//         reminderDate = date +', '+ dayName +' '+monthName
-//         yearvalue += 1
-//         yearLocalStorage
-//         saveToStorage(yearValue)
-//     })
-// })
