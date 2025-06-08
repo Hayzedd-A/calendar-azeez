@@ -1369,5 +1369,557 @@ window.addEventListener("beforeinstallprompt", (e) => {
   });
 });
 
+
+// Add this to your existing script.js file
+
+// Enhanced statistics function
+function getCalendarStats() {
+    const stats = {
+        totalEvents: 0,
+        completedEvents: 0,
+        upcomingEvents: 0,
+        overdueEvents: 0,
+        eventsByCategory: {},
+        eventsByMonth: {},
+        completionRate: 0
+    };
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    Object.values(yearLocalStorage).forEach(storageKey => {
+        const data = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        data.forEach(event => {
+            stats.totalEvents++;
+            
+            if (event.done) {
+                stats.completedEvents++;
+            }
+            
+            // Count by category
+            const category = event.category || 'Uncategorized';
+            stats.eventsByCategory[category] = (stats.eventsByCategory[category] || 0) + 1;
+            
+            // Count by month
+            if (event.reminderDate) {
+                const month = event.reminderDate.split(' ')[2] || 'Unknown';
+                stats.eventsByMonth[month] = (stats.eventsByMonth[month] || 0) + 1;
+                
+                // Check if upcoming or overdue (only for current year)
+                if (!event.done && storageKey === currentYearStorage) {
+                    try {
+                        const eventDateStr = event.reminderDate.replace(',', '') + `, ${currentYearName}`;
+                        const eventDate = new Date(eventDateStr);
+                        eventDate.setHours(0, 0, 0, 0);
+                        
+                        const diffTime = eventDate.getTime() - today.getTime();
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        
+                        if (diffDays >= 0) {
+                            stats.upcomingEvents++;
+                        } else {
+                            stats.overdueEvents++;
+                        }
+                    } catch (error) {
+                        console.error('Error parsing event date:', error);
+                    }
+                }
+            }
+        });
+    });
+    
+    // Calculate completion rate
+    if (stats.totalEvents > 0) {
+        stats.completionRate = Math.round((stats.completedEvents / stats.totalEvents) * 100);
+    }
+    
+    return stats;
+}
+
+// Display statistics in the dashboard
+function displayStats() {
+    const stats = getCalendarStats();
+    
+    // Update stat cards
+    $('#totalEvents').text(stats.totalEvents);
+    $('#completedEvents').text(stats.completedEvents);
+    $('#upcomingEvents').text(stats.upcomingEvents);
+    $('#overdueEvents').text(stats.overdueEvents);
+    
+    // Update completion rate
+    $('#completionRate').css('width', stats.completionRate + '%');
+    $('#completionText').text(stats.completionRate + '%');
+    
+    // Display category chart
+    displayCategoryChart(stats.eventsByCategory);
+    
+    // Display month chart
+    displayMonthChart(stats.eventsByMonth);
+}
+
+// Display category chart
+function displayCategoryChart(categoryData) {
+    const container = $('#categoryChart');
+    container.empty();
+    
+    if (Object.keys(categoryData).length === 0) {
+        container.html('<p style="text-align: center; color: #718096;">No data available</p>');
+        return;
+    }
+    
+    const maxValue = Math.max(...Object.values(categoryData));
+    
+    Object.entries(categoryData).forEach(([category, count]) => {
+        const percentage = (count / maxValue) * 100;
+        const barHtml = `
+            <div class="chart-bar">
+                <div class="chart-label">${category}</div>
+                <div class="chart-bar-fill" style="width: ${percentage}%"></div>
+                <div class="chart-value">${count}</div>
+            </div>
+        `;
+        container.append(barHtml);
+    });
+}
+
+// Display month chart
+function displayMonthChart(monthData) {
+    const container = $('#monthChart');
+    container.empty();
+    
+    if (Object.keys(monthData).length === 0) {
+        container.html('<p style="text-align: center; color: #718096;">No data available</p>');
+        return;
+    }
+    
+    const maxValue = Math.max(...Object.values(monthData));
+    const monthOrder = ['january', 'february', 'march', 'april', 'may', 'june', 
+                       'july', 'august', 'september', 'october', 'november', 'december'];
+    
+    monthOrder.forEach(month => {
+        if (monthData[month]) {
+            const count = monthData[month];
+            const percentage = (count / maxValue) * 100;
+            const barHtml = `
+                <div class="chart-bar">
+                    <div class="chart-label">${month.charAt(0).toUpperCase() + month.slice(1, 3)}</div>
+                    <div class="chart-bar-fill" style="width: ${percentage}%"></div>
+                    <div class="chart-value">${count}</div>
+                </div>
+            `;
+            container.append(barHtml);
+        }
+    });
+}
+
+// Event handlers for stats dashboard
+$(document).ready(function () {
+  // Stats icon click handler
+  $(".statsIcon").click(function () {
+    $(".statsContainer").toggleClass("show");
+    if ($(".statsContainer").hasClass("show")) {
+      displayStats();
+      $("body").addClass("stats-open");
+    } else {
+      $("body").removeClass("stats-open");
+    }
+  });
+
+  // Close stats dashboard
+  $("#closeStatsIcon").click(function () {
+    $(".statsContainer").removeClass("show");
+    $("body").removeClass("stats-open");
+  });
+
+  // Close stats when clicking outside
+  $(document).click(function (e) {
+    if (!$(e.target).closest(".statsContainer, .statsIcon").length) {
+      $(".statsContainer").removeClass("show");
+      $("body").removeClass("stats-open");
+    }
+  });
+
+  const originalUpdateReminder = updateReminder;
+  updateReminder = function () {
+    originalUpdateReminder();
+    // Update stats if dashboard is open
+    if ($(".statsContainer").hasClass("show")) {
+      displayStats();
+    }
+  };
+
+  // Keyboard shortcut for stats (Ctrl/Cmd + S)
+  $(document).keydown(function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.keyCode === 83) {
+      e.preventDefault();
+      $(".statsIcon").click();
+    }
+  });
+});
+
+// Add refresh stats function for manual updates
+function refreshStats() {
+  if ($(".statsContainer").hasClass("show")) {
+    displayStats();
+    showMessage("Statistics updated!", "success");
+  }
+}
+
+// Auto-refresh stats every 30 seconds when dashboard is open
+setInterval(() => {
+  if ($(".statsContainer").hasClass("show")) {
+    displayStats();
+  }
+}, 30000);
+
+// Enhanced export function to include stats
+function exportCalendarDataWithStats() {
+  try {
+    const allData = {};
+    const stats = getCalendarStats();
+
+    // Add calendar data
+    Object.values(yearLocalStorage).forEach((storageKey) => {
+      const data = localStorage.getItem(storageKey);
+      if (data) {
+        allData[storageKey] = JSON.parse(data);
+      }
+    });
+
+    // Add statistics
+    allData.statistics = {
+      ...stats,
+      exportDate: new Date().toISOString(),
+      appVersion: "2.0.0",
+    };
+
+    const dataStr = JSON.stringify(allData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `calendar-backup-with-stats-${
+      new Date().toISOString().split("T")[0]
+    }.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    showMessage(
+      "Calendar data with statistics exported successfully!",
+      "success"
+    );
+  } catch (error) {
+    console.error("Error exporting data:", error);
+    showMessage("Error exporting data. Please try again.", "error");
+  }
+}
+
+// Add productivity insights
+function getProductivityInsights() {
+  const stats = getCalendarStats();
+  const insights = [];
+
+  // Completion rate insights
+  if (stats.completionRate >= 80) {
+    insights.push({
+      type: "success",
+      message: `Excellent! You've completed ${stats.completionRate}% of your events.`,
+      icon: "fa-trophy",
+    });
+  } else if (stats.completionRate >= 60) {
+    insights.push({
+      type: "warning",
+      message: `Good progress! ${stats.completionRate}% completion rate. Keep it up!`,
+      icon: "fa-thumbs-up",
+    });
+  } else if (stats.completionRate > 0) {
+    insights.push({
+      type: "info",
+      message: `${stats.completionRate}% completion rate. Consider breaking down larger tasks.`,
+      icon: "fa-lightbulb",
+    });
+  }
+
+  // Overdue events insight
+  if (stats.overdueEvents > 0) {
+    insights.push({
+      type: "error",
+      message: `You have ${stats.overdueEvents} overdue event${
+        stats.overdueEvents > 1 ? "s" : ""
+      }. Consider rescheduling or completing them.`,
+      icon: "fa-exclamation-triangle",
+    });
+  }
+
+  // Upcoming events insight
+  if (stats.upcomingEvents > 0) {
+    insights.push({
+      type: "info",
+      message: `${stats.upcomingEvents} upcoming event${
+        stats.upcomingEvents > 1 ? "s" : ""
+      } to look forward to!`,
+      icon: "fa-calendar-check",
+    });
+  }
+
+  // Category distribution insight
+  const categories = Object.keys(stats.eventsByCategory);
+  if (categories.length > 3) {
+    insights.push({
+      type: "success",
+      message: `Great organization! You're using ${categories.length} different categories.`,
+      icon: "fa-tags",
+    });
+  }
+
+  // No events insight
+  if (stats.totalEvents === 0) {
+    insights.push({
+      type: "info",
+      message: "Start by adding your first event to track your progress!",
+      icon: "fa-plus-circle",
+    });
+  }
+
+  return insights;
+}
+
+// Display productivity insights
+function displayProductivityInsights() {
+  const insights = getProductivityInsights();
+  const container = $(
+    '<div class="insights-section"><h4><i class="fas fa-brain"></i> Productivity Insights</h4></div>'
+  );
+
+  if (insights.length === 0) {
+    container.append(
+      '<p style="text-align: center; color: #718096;">No insights available yet.</p>'
+    );
+  } else {
+    insights.forEach((insight) => {
+      const insightHtml = `
+                <div class="insight-card ${insight.type}">
+                    <i class="fas ${insight.icon}"></i>
+                    <span>${insight.message}</span>
+                </div>
+            `;
+      container.append(insightHtml);
+    });
+  }
+
+  $(".statsContainer").append(container);
+}
+
+// Add insights styles to CSS
+const insightStyles = `
+<style>
+.insights-section {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.insights-section h4 {
+    color: #4a5568;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.insights-section h4 i {
+    margin-right: 0.5rem;
+    color: #667eea;
+}
+
+.insight-card {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    border-left: 4px solid;
+}
+
+.insight-card i {
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.insight-card.success {
+    background: rgba(56, 161, 105, 0.1);
+    border-left-color: #38a169;
+    color: #2f855a;
+}
+
+.insight-card.warning {
+    background: rgba(237, 137, 54, 0.1);
+    border-left-color: #ed8936;
+    color: #c05621;
+}
+
+.insight-card.info {
+    background: rgba(66, 153, 225, 0.1);
+    border-left-color: #4299e1;
+    color: #2b6cb0;
+}
+
+.insight-card.error {
+    background: rgba(229, 62, 62, 0.1);
+    border-left-color: #e53e3e;
+    color: #c53030;
+}
+
+@media (prefers-color-scheme: dark) {
+    .insights-section h4 {
+        color: #e2e8f0;
+    }
+    
+    .insight-card.success { color: #68d391; }
+    .insight-card.warning { color: #fbb040; }
+    .insight-card.info { color: #63b3ed; }
+    .insight-card.error { color: #fc8181; }
+}
+</style>
+`;
+
+// Inject insights styles
+$("head").append(insightStyles);
+
+// Enhanced display stats function with insights
+const originalDisplayStats = displayStats;
+displayStats = function () {
+  originalDisplayStats();
+
+  // Remove existing insights
+  $(".insights-section").remove();
+
+  // Add productivity insights
+  displayProductivityInsights();
+
+  // Add animation to stat cards
+  $(".stat-card").each(function (index) {
+    $(this).css({
+      animation: `slideInUp 0.5s ease ${index * 0.1}s both`,
+    });
+  });
+};
+
+// Add slide-in animation
+const animationStyles = `
+<style>
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stat-card {
+    animation: slideInUp 0.5s ease both;
+}
+
+.chart-bar {
+    animation: slideInRight 0.5s ease both;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.chart-bar:nth-child(1) { animation-delay: 0.1s; }
+.chart-bar:nth-child(2) { animation-delay: 0.2s; }
+.chart-bar:nth-child(3) { animation-delay: 0.3s; }
+.chart-bar:nth-child(4) { animation-delay: 0.4s; }
+.chart-bar:nth-child(5) { animation-delay: 0.5s; }
+</style>
+`;
+
+$("head").append(animationStyles);
+
+// Add stats refresh button
+function addStatsRefreshButton() {
+  const refreshButton = `
+        <div class="stats-actions" style="text-align: center; margin: 1rem 0;">
+            <button id="refreshStats" class="btn-primary" style="padding: 0.5rem 1rem; border: none; border-radius: 8px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; cursor: pointer;">
+                <i class="fas fa-sync-alt"></i> Refresh Stats
+            </button>
+        </div>
+    `;
+
+  $(".statsContainer h3").after(refreshButton);
+
+  $("#refreshStats").click(function () {
+    $(this).addClass("loading");
+    setTimeout(() => {
+      refreshStats();
+      $(this).removeClass("loading");
+    }, 500);
+  });
+}
+
+// Initialize stats dashboard
+$(document).ready(function () {
+  // Add refresh button when stats container is shown
+  $(".statsIcon").click(function () {
+    setTimeout(() => {
+      if (
+        $(".statsContainer").hasClass("show") &&
+        $("#refreshStats").length === 0
+      ) {
+        addStatsRefreshButton();
+      }
+    }, 100);
+  });
+});
+
+// Add loading state for refresh button
+const loadingStyles = `
+<style>
+.btn-primary.loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn-primary.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+`;
+
+$("head").append(loadingStyles);
+
+console.log("Calendar statistics dashboard initialized successfully");
+
+
+
 // Final initialization call
 console.log("Calendar application initialized successfully");

@@ -11,9 +11,15 @@
     <link rel="stylesheet" href="jquery-ui-1.13.2/jquery-ui.structure.css" />
     <link rel="stylesheet" href="jquery-ui-1.13.2/jquery-ui.theme.css" />
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <title>Calendar - Todo</title>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -27,31 +33,100 @@
         <h3><i class="fas fa-list-check"></i> ALL TO-DO</h3>
       </div>
       <div class="todoList">
-        <h3 class="todoMonth" id="todo-january"><i class="fas fa-calendar-alt"></i> January</h3>
+        <h3 class="todoMonth" id="todo-january">
+          <i class="fas fa-calendar-alt"></i> January
+        </h3>
         <div class="content january"></div>
-        <h3 class="todoMonth" id="todo-february"><i class="fas fa-calendar-alt"></i> February</h3>
+        <h3 class="todoMonth" id="todo-february">
+          <i class="fas fa-calendar-alt"></i> February
+        </h3>
         <div class="content february"></div>
-        <h3 class="todoMonth" id="todo-march"><i class="fas fa-calendar-alt"></i> March</h3>
+        <h3 class="todoMonth" id="todo-march">
+          <i class="fas fa-calendar-alt"></i> March
+        </h3>
         <div class="content march"></div>
-        <h3 class="todoMonth" id="todo-april"><i class="fas fa-calendar-alt"></i> April</h3>
+        <h3 class="todoMonth" id="todo-april">
+          <i class="fas fa-calendar-alt"></i> April
+        </h3>
         <div class="content april"></div>
-        <h3 class="todoMonth" id="todo-may"><i class="fas fa-calendar-alt"></i> May</h3>
+        <h3 class="todoMonth" id="todo-may">
+          <i class="fas fa-calendar-alt"></i> May
+        </h3>
         <div class="content may"></div>
-        <h3 class="todoMonth" id="todo-june"><i class="fas fa-calendar-alt"></i> June</h3>
+        <h3 class="todoMonth" id="todo-june">
+          <i class="fas fa-calendar-alt"></i> June
+        </h3>
         <div class="content june"></div>
-        <h3 class="todoMonth" id="todo-july"><i class="fas fa-calendar-alt"></i> July</h3>
+        <h3 class="todoMonth" id="todo-july">
+          <i class="fas fa-calendar-alt"></i> July
+        </h3>
         <div class="content july"></div>
-        <h3 class="todoMonth" id="todo-august"><i class="fas fa-calendar-alt"></i> August</h3>
+        <h3 class="todoMonth" id="todo-august">
+          <i class="fas fa-calendar-alt"></i> August
+        </h3>
         <div class="content august"></div>
-        <h3 class="todoMonth" id="todo-september"><i class="fas fa-calendar-alt"></i> September</h3>
+        <h3 class="todoMonth" id="todo-september">
+          <i class="fas fa-calendar-alt"></i> September
+        </h3>
         <div class="content september"></div>
-        <h3 class="todoMonth" id="todo-october"><i class="fas fa-calendar-alt"></i> October</h3>
+        <h3 class="todoMonth" id="todo-october">
+          <i class="fas fa-calendar-alt"></i> October
+        </h3>
         <div class="content october"></div>
-        <h3 class="todoMonth" id="todo-november"><i class="fas fa-calendar-alt"></i> November</h3>
+        <h3 class="todoMonth" id="todo-november">
+          <i class="fas fa-calendar-alt"></i> November
+        </h3>
         <div class="content november"></div>
-        <h3 class="todoMonth" id="todo-december"><i class="fas fa-calendar-alt"></i> December</h3>
+        <h3 class="todoMonth" id="todo-december">
+          <i class="fas fa-calendar-alt"></i> December
+        </h3>
         <div class="content december"></div>
         <span class="emptyInfo"></span>
+      </div>
+      <!-- Add this after the todoContainer div, before the main container -->
+      <div class="statsContainer">
+        <span><i class="fas fa-times closeIcon" id="closeStatsIcon"></i></span>
+        <h3><i class="fas fa-chart-bar"></i> Calendar Analytics</h3>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="totalEvents">0</div>
+            <div class="stat-label">Total Events</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-number" id="completedEvents">0</div>
+            <div class="stat-label">Completed</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-number" id="upcomingEvents">0</div>
+            <div class="stat-label">Upcoming</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-number" id="overdueEvents">0</div>
+            <div class="stat-label">Overdue</div>
+          </div>
+        </div>
+
+        <div class="stats-section">
+          <h4>Events by Category</h4>
+          <div class="chart-container" id="categoryChart"></div>
+        </div>
+
+        <div class="stats-section">
+          <h4>Events by Month</h4>
+          <div class="chart-container" id="monthChart"></div>
+        </div>
+
+        <div class="stats-section">
+          <h4>Completion Rate</h4>
+          <div class="progress-bar">
+            <div class="progress-fill" id="completionRate"></div>
+            <span class="progress-text" id="completionText">0%</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -59,16 +134,19 @@
     <div class="container">
       <!-- Header -->
       <div class="yearContainer">
-        <div class="menuIcon todoIcon">
-          <i class="fas fa-bars"></i>
-        </div>
+        <div class="menuIcon todoIcon"><img src="menu_icon.svg" alt="" /></div>
         <div class="year">
           <div class="yearName" title="Click to change year">
-            <h1><span id="currentYear">2022</span> <span class="calendar-text">CALENDAR</span></h1>
+            <h1><span id="currentYear">2022</span> CALENDER</h1>
           </div>
-          <span class="todoIcon toggleYear">
-            <i class="fas fa-chevron-down"></i>
-          </span>
+          <span class="todoIcon toggleYear"
+            ><img src="toggle_icon.png" alt=""
+          /></span>
+          <span class="statsIcon todoIcon" title="View Statistics"
+            ><i class="fas fa-chart-bar"></i
+          ></span>
+          <!-- ... rest of your existing code ... -->
+
           <center>
             <ul class="years">
               <li class="eachYear">2022</li>
@@ -181,7 +259,12 @@
         <form action="">
           <div class="form-group">
             <label for="categories"><i class="fas fa-tag"></i> Category</label>
-            <input name="categories" list="events" id="categories" placeholder="Select or type category" />
+            <input
+              name="categories"
+              list="events"
+              id="categories"
+              placeholder="Select or type category"
+            />
             <datalist id="events">
               <option value="">--Select Category--</option>
               <option value="Anniversary">Anniversary</option>
@@ -193,15 +276,19 @@
 
             <div class="others">
               <label for="others">Enter category</label>
-              <input type="text" placeholder="Enter desired category" id="otherValue">
+              <input
+                type="text"
+                placeholder="Enter desired category"
+                id="otherValue"
+              />
             </div>
           </div>
-          
+
           <div class="reminderName form-group">
             <label for="reminder"><i class="fas fa-bell"></i> Event Name</label>
             <input type="text" placeholder="Enter Event Name" id="reminder" />
           </div>
-          
+
           <div class="repeatOption">
             <label class="checkbox-container">
               <span id="repeatition">
@@ -211,7 +298,7 @@
               </span>
             </label>
           </div>
-          
+
           <div class="form-actions">
             <input type="submit" value="SAVE EVENT" class="save-btn" />
           </div>
