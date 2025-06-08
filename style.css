@@ -1,298 +1,983 @@
+/* Modern CSS Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body{
-            font-size: 18px;
-            background-color: #edeef5;
-            background-attachment: fixed;
-        }
-        .container {
-            display: grid;
-            grid-template-rows: 60px 1fr;
-            gap: 1em;
-        }
-        h1 {
-            color: rgb(60 68 68);
-            text-shadow: 6px 6px 10px darkslategrey;
-            text-align: center;
-            text-decoration: underline;
-            margin: 0;
-        }
-        .todoContainer {
-            background-color: #edeef5;
-            transition: left 0.5s;
-            position: fixed;
-            top: 0;
-            left: -25em;
-            height: 100vh;
-            width: 25em;
-        }
-        .todoContainer h3 {
-            text-align: center;
-        }
-        .right50 {
-            left: 0;
-        }
-        .todoList h3 {
-            text-align: center;
-        }
-        .todoList .content {
-            position: relative;
-            padding: 0.5em!important;
-            font-size: 24px;
-        }
-        .todoList .content img{
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-        }
-        .todoList .content img#delete{
-            width: 36px;
-            height: 36px;
-        }
-        .eventContent span:last-of-type{
-            display: flex;
-            align-items: center;
-        }
-        .todoList .content img:active{
-            transform: scale(0.9);
-        }
-        .yearContainer {
-            display: flex;
-        }
-        .year {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-        }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #333;
+}
 
-        .menuIcon img {
-            cursor: pointer;
-            width: 30px;
-        }
-        .menuIcon img:hover {
-            scale: 1.1
-        }
-        .menuIcon img:active {
-            scale: 1;
-        }
+/* Container Layout */
+.container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 2rem;
+    padding: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
 
-        #closeIcon {
-            width: 25px;
-            position: relative;
-            top: 30px;
-            left: 10px;
-            cursor: pointer;
-        }
-        #closeIcon:hover {
-            scale: 1.1;
-        }
-        #closeIcon:active {
-            scale: 1;
-        }
-        .calender {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 2%;
-            justify-items: space-around;
-        }
-        .month {
-            box-shadow: 6px 4px 9px black;
-            background-color: #6b74c1;
-            color: white;
-            border-radius: 1rem;
-            display: grid;
-            grid-template-rows: 40px 1fr;
-            text-align: center;
-            transition-property: all;
-            transition-duration: 2s;
-            top: 0;
-            left: 0;
-        }
-        .month-name {
-            text-transform: uppercase;
-            background-color: #3f4aaa;
-            border-radius: 1rem 1rem 0 0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
+/* Header Styles */
+.yearContainer {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1rem 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
 
-        .maximize {
-            margin: 5px 15px;
-            width: 20px;
-            float: right;
-            cursor: pointer;
-        }
-        div.ui-widget.ui-widget-content {
-            border-radius: 40px;
-        }
-        .ui-dialog-titlebar {
-            border-radius: 30px 30px 0 0;
-        }
-        .ui-dialog .ui-dialog-content {
-            background-color: #6d75c4;
-            color: #f8f8f8;
-            border-radius: 0 0 30px 30px;
-            overflow: hidden;
-        }
-        .ui-state-default {
-            border-color: #29338a;
-        }
-        ul.years {
-            margin: 0;
-        }
-        .years li {
-            margin: 5px;
-        }
-        .years li.eachYear:hover {
-            scale: 1.2;
-            transform-origin: left;
-        }
-        .others input {
-            background-color: antiquewhite;
-        }
-        .ui-dialog .ui-dialog-titlebar-close {
-            width: 40px;
-            height: 40px;
-            top: 30%;
-            right: .6em;
-        }
-        .ui-button .ui-icon {
-            transform: scale(2);
-            background-color: rgb(243, 159, 159);
-        }
-        .repeatOption {
-            display: flex;
-            justify-content: end;
-            gap: 10px;
-        }
-        #days form input:not(.repeatOption input) {
-            border-radius: 10px;
-            padding: 5px 15px;
-            box-shadow: 1px 1px 5px;
-            margin-top: 10px;
-            border: none;
-        }
-        .repeatOption input {
-            transform: scale(1.5);
-            margin-top: 10px;
-        }
-        .repeatition {
-            opacity: 0.1;
-        }
-        .dates {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            grid-template-rows: repeat(7, 1fr);
-            justify-items: center;
-            align-items: center;
-        }
+.year {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
 
-        .date {
-            cursor: pointer;
-        }
-        .date:hover {
-            text-shadow: 0 0 20px black;
-            font-weight: bold;
-        }
-        .full-date {
-            text-transform: capitalize;
-        }
-        .bigShow {
-            position: fixed;
-            width: 100%;
-            height: 100vh;
-        }
-        .outline{
-            outline: 1.5px outset maroon;
-        }
-        #optionClose {
-            cursor: pointer;
-        }
-        .width {
-            width: 95%;
-        }
-        .yearName h1, .years li {
-            cursor: pointer;
-        }
+.yearName h1 {
+    color: #b9babb;
+    font-weight: 700;
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-        .dates > div:first-of-type { 
-            color: rgb(245, 182, 182);
-        }
+.yearName h1:hover {
+    color: #667eea;
+    transform: translateY(-2px);
+}
 
-        .span-1 {
-            grid-column: span 1;
-        }
+.calendar-text {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
-        .span-2 {
-            grid-column: span 2;
-        }
+/* Menu Icon */
+.menuIcon {
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .span-3 {
-            grid-column: span 3;
-        }
+.menuIcon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
 
-        .span-4 {
-            grid-column: span 4;
-        }
+.menuIcon i {
+    font-size: 1.2rem;
+}
 
-        .span-5 {
-            grid-column: span 5;
-        }
+/* Toggle Year */
+.toggleYear {
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: #667eea;
+}
 
-        .span-6 {
-            grid-column: span 6;
-        }
+.toggleYear:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: rotate(180deg);
+}
 
-        .span-7 {
-            grid-column: span 7;
-            display: none;
-        }
+/* Years List */
+.years {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
 
-        @media only screen and (max-width : 600px) {
-        .container { 
-            grid-template-rows: 120px 1fr;
-        }
-        .calender {
-            grid-template-columns: repeat(1, 1fr);
-            grid-template-rows: repeat(12, 1fr);
-        }
-        }
-        @media only screen and (min-width : 600px) {
-            .calender {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(6, 1fr);
-            }
-        }
-        @media only screen and (min-width : 900px) {
-            .calender {
-                grid-template-columns: repeat(3, 1fr);
-                grid-template-rows: repeat(4, 1fr);
-            }
-        }
-        @media only screen and (min-width : 2400px) {
-            body {
-                font-size: 48px;
-            }
-        }
-        @media screen and (min-width : 3300px) {
-            body {
-                font-size: 64px;
-            }
-        }
-        .userDate {
-            border-radius: 50%;
-            color: #83d9dd;
-            transition: all .5s linear;
-            background-image: linear-gradient(45deg, #423ca3, #954545, transparent);
-        }
+.years li.eachYear {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
 
-        .eventContent {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 15px;
-        }
-        .markAsDone {
-            color: lightgray;
-        }
+.years li.eachYear:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* Calendar Grid */
+.calender {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+/* Month Cards */
+.month {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+.month:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.month-name {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: capitalize;
+}
+
+.maximize {
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.maximize:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.maximize i {
+    font-size: 1rem;
+}
+
+/* Calendar Dates Grid */
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    padding: 1rem;
+    min-height: 200px;
+}
+
+.dates > div:first-child,
+.dates > div:nth-child(2),
+.dates > div:nth-child(3),
+.dates > div:nth-child(4),
+.dates > div:nth-child(5),
+.dates > div:nth-child(6),
+.dates > div:nth-child(7) {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 35px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+}
+
+.date:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Current Date Styling */
+.userDate {
+    border-radius: 50%;
+    color: white !important;
+    font-weight: 700;
+    animation: pulse 2s infinite;
+    background: linear-gradient(45deg, #667eea, #764ba2) !important;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Event Date Outline */
+.outline {
+    border: 2px solid #e53e3e;
+    background: rgba(229, 62, 62, 0.1);
+    color: #e53e3e;
+    font-weight: 600;
+}
+
+.outline:hover {
+    background: #e53e3e;
+    color: white;
+}
+
+/* Expanded Month View */
+.bigShow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    border-radius: 0;
+    grid-template-rows: auto 1fr;
+}
+
+.bigShow .dates {
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.bigShow .date {
+    min-height: 60px;
+    font-size: 1.2rem;
+}
+
+/* Todo Sidebar */
+.todoContainer {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: fixed;
+    top: 0;
+    left: -400px;
+    height: 100vh;
+    width: 400px;
+    z-index: 1001;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.right50 {
+    left: 0;
+}
+
+.todo-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 1.5rem;
+    position: relative;
+}
+
+.todo-header h3 {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.todo-header h3 i {
+    margin-right: 0.5rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+#closeIcon {
+    font-size: 1.2rem;
+}
+
+/* Todo List */
+.todoList {
+    padding: 1rem;
+}
+
+.todoList h3 {
+    color: #667eea;
+    font-weight: 600;
+    padding: 1rem;
+    border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+    margin-bottom: 0.5rem;
+}
+
+.todoList h3 i {
+    margin-right: 0.5rem;
+}
+
+.todoList .content {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.9rem;
+}
+
+.eventContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: rgba(102, 126, 234, 0.05);
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.eventContent:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateX(5px);
+}
+
+.markAsDone {
+    opacity: 0.6;
+    text-decoration: line-through;
+    border-left-color: #a0aec0;
+}
+
+.eventContent span:last-of-type {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.optionTodo {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.optionTodo:hover {
+    background: rgba(102, 126, 234, 0.2);
+    transform: scale(1.1);
+}
+
+/* Dialog Styles */
+.ui-dialog {
+    border-radius: 20px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+    border: none !important;
+}
+
+.ui-dialog-titlebar {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 1rem 1.5rem !important;
+}
+
+.ui-dialog .ui-dialog-content {
+    background: white !important;
+    color: #333 !important;
+    border-radius: 0 0 20px 20px !important;
+    padding: 2rem !important;
+}
+
+#days {
+    font-family: 'Inter', sans-serif;
+}
+
+.dialog-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #667eea;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.full-date {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #667eea;
+    text-transform: capitalize;
+    margin-bottom: 1.5rem;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Checkbox Styles */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    color: #4a5568;
+}
+
+.checkbox-container input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkmark {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-color: #667eea;
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.repeatOption {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+/* Save Button */
+.form-actions {
+    text-align: center;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 25px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+}
+
+/* Others Input */
+.others {
+    margin-top: 0.5rem;
+}
+
+.others input {
+    background: #fff3cd;
+    border-color: #ffc107;
+}
+
+/* Empty Info */
+.emptyInfo {
+    text-align: center;
+    padding: 2rem;
+    color: #a0aec0;
+    font-style: italic;
+}
+
+/* Span Classes for Calendar Layout */
+.span-1 { grid-column: span 1; }
+.span-2 { grid-column: span 2; }
+.span-3 { grid-column: span 3; }
+.span-4 { grid-column: span 4; }
+.span-5 { grid-column: span 5; }
+.span-6 { grid-column: span 6; }
+.span-7 { grid-column: span 7; display: none; }
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+    .container {
+        padding: 0.5rem;
+        gap: 1rem;
+    }
+    
+    .yearContainer {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .yearName h1 {
+        font-size: 1.8rem;
+    }
+    
+    .calender {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .todoContainer {
+        width: 100vw;
+        left: -100vw;
+    }
+    
+    .dates {
+        padding: 0.5rem;
+        gap: 1px;
+    }
+    
+    .date {
+        min-height: 30px;
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .calender {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    .calender {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .calender {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Utility Classes */
+.width {
+    width: 95%;
+}
+
+/* Tooltip Enhancements */
+.ui-tooltip {
+    background: rgba(0, 0, 0, 0.9) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.9rem !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Accordion Enhancements */
+.ui-accordion .ui-accordion-header {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    margin-bottom: 0.5rem !important;
+    color: #667eea !important;
+    font-weight: 600 !important;
+}
+
+.ui-accordion .ui-accordion-content {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+/* Loading Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.month {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.month:nth-child(1) { animation-delay: 0.1s; }
+.month:nth-child(2) { animation-delay: 0.2s; }
+.month:nth-child(3) { animation-delay: 0.3s; }
+.month:nth-child(4) { animation-delay: 0.4s; }
+.month:nth-child(5) { animation-delay: 0.5s; }
+.month:nth-child(6) { animation-delay: 0.6s; }
+.month:nth-child(7) { animation-delay: 0.7s; }
+.month:nth-child(8) { animation-delay: 0.8s; }
+.month:nth-child(9) { animation-delay: 0.9s; }
+.month:nth-child(10) { animation-delay: 1.0s; }
+.month:nth-child(11) { animation-delay: 1.1s; }
+.month:nth-child(12) { animation-delay: 1.2s; }
+
+/* Scrollbar Styling */
+.todoContainer::-webkit-scrollbar {
+    width: 6px;
+}
+
+.todoContainer::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.todoContainer::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 3px;
+}
+
+.todoContainer::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a67d8, #6b46c1);
+}
+
+/* Sunday Styling */
+.dates > div:first-of-type {
+    color: #e53e3e !important;
+    font-weight: 700;
+}
+
+/* Enhanced Button States */
+.menuIcon:active,
+.maximize:active,
+.close-btn:active,
+.toggleYear:active {
+    transform: scale(0.95);
+}
+
+.years li.eachYear:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.date:active {
+    transform: scale(0.95);
+}
+
+.save-btn:active {
+    transform: translateY(0) scale(0.98) !important;
+}
+
+/* Focus States for Accessibility */
+.menuIcon:focus,
+.maximize:focus,
+.close-btn:focus,
+.toggleYear:focus,
+.years li.eachYear:focus,
+.date:focus,
+.save-btn:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .month {
+        border: 2px solid #333;
+    }
+    
+    .date:hover {
+        background: #000 !important;
+        color: #fff !important;
+    }
+    
+    .userDate {
+        background: #000 !important;
+        color: #fff !important;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .userDate {
+        animation: none;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    }
+    
+    .yearContainer,
+    .month,
+    .todoContainer {
+        background: rgba(45, 55, 72, 0.95);
+        color: #e2e8f0;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .ui-dialog .ui-dialog-content {
+        background: #2d3748 !important;
+        color: #e2e8f0 !important;
+    }
+    
+    .form-group input {
+        background: #4a5568;
+        border-color: #718096;
+        color: #e2e8f0;
+    }
+    
+    .form-group input:focus {
+        border-color: #667eea;
+        background: #2d3748;
+    }
+    
+    .eventContent {
+        background: rgba(102, 126, 234, 0.1);
+        color: #e2e8f0;
+    }
+    
+    .full-date {
+        background: rgba(102, 126, 234, 0.2);
+        color: #e2e8f0;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .todoContainer,
+    .menuIcon,
+    .maximize,
+    .toggleYear {
+        display: none !important;
+    }
+    
+    .container {
+        max-width: none;
+        padding: 0;
+    }
+    
+    .month {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    .calender {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}
+
+/* Additional Enhancements */
+.date[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Improved Form Validation States */
+.form-group input:invalid {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+.form-group input:valid {
+    border-color: #38a169;
+}
+
+/* Loading State */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #667eea;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Success/Error Messages */
+.message {
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    font-weight: 500;
+}
+
+.message.success {
+    background: rgba(56, 161, 105, 0.1);
+    color: #38a169;
+    border: 1px solid rgba(56, 161, 105, 0.3);
+}
+
+.message.error {
+    background: rgba(229, 62, 62, 0.1);
+    color: #e53e3e;
+    border: 1px solid rgba(229, 62, 62, 0.3);
+}
+
+/* Enhanced Hover Effects */
+.month:hover .month-name {
+    background: linear-gradient(135deg, #5a67d8, #6b46c1);
+}
+
+.eventContent:hover .optionTodo {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.optionTodo {
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+/* Improved Typography */
+.yearName h1 {
+    letter-spacing: -0.02em;
+}
+
+.month-name span {
+    letter-spacing: 0.5px;
+}
+
+.dialog-header span {
+    letter-spacing: 0.3px;
+}
+
+/* Final Responsive Adjustments */
+@media only screen and (max-width: 480px) {
+    .yearName h1 {
+        font-size: 1.5rem;
+    }
+    
+    .todoContainer {
+        width: 100vw;
+        left: -100vw;
+    }
+    
+    .ui-dialog {
+        width: 95vw !important;
+        max-width: none !important;
+    }
+    
+    .form-group input,
+    .save-btn {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+    }
+}
+
+/* Ensure all interactive elements are accessible */
+button, input, select, textarea, .date, .menuIcon, .maximize, .close-btn, .toggleYear, .years li.eachYear {
+    -webkit-tap-highlight-color: rgba(102, 126, 234, 0.3);
+}
+
+/* Final touch - smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
